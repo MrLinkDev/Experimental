@@ -1,4 +1,4 @@
-package ru.link.experimental.Services.PurchaseServices.Interfaces;
+package ru.link.experimental.Services.PurchaseServices;
 
 import ru.link.experimental.DTO.PurchaseQuestionDTO;
 

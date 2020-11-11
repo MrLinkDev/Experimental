@@ -1,4 +1,4 @@
-package ru.link.experimental;
+package ru.link.experimental.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +7,6 @@ import ru.link.experimental.Payloads.PurchasePayload;
 import ru.link.experimental.Services.MailService;
 
 import javax.mail.MessagingException;
-import javax.validation.Payload;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,18 +14,25 @@ import java.util.List;
 public class SimpleController {
     private MailService mailService = new MailService();
 
+    private final PurchasePayload purchasePayload;
+
     @Autowired
-    private PurchasePayload purchasePayload;
+    public SimpleController(PurchasePayload purchasePayload) {
+        this.purchasePayload = purchasePayload;
+    }
 
     @GetMapping("/sendMail")
     public void sendTestMail(@RequestParam String mailPassword) throws IOException, MessagingException {
         mailService.sendMail(mailPassword);
     }
 
-    @GetMapping("/purchaseTest")
-    public List<PurchaseDTO> purchaseTest(){
+    @PostMapping("/purchaseTest")
+    public void purchaseTestCreate(){
         purchasePayload.create();
+    }
 
+    @GetMapping("/purchaseTest")
+    public List<PurchaseDTO> purchaseTestGet(){
         return purchasePayload.getAll();
     }
 

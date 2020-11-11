@@ -1,40 +1,41 @@
-package ru.link.experimental.Services.PurchaseServices;
+package ru.link.experimental.Services.PurchaseServices.Implements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.link.experimental.DTO.*;
 import ru.link.experimental.Entities.*;
 import ru.link.experimental.Repositories.*;
-import ru.link.experimental.Services.PurchaseServices.Interfaces.PurchaseServiceInterface;
+import ru.link.experimental.Services.PurchaseServices.PurchaseServiceInterface;
 
 import java.util.*;
 
 @Service
 public class PurchaseService implements PurchaseServiceInterface {
 
-    @Autowired
-    private PurchaseRepository purchaseRepository;
+    private final PurchaseRepository purchaseRepository;
+
+    private final PurchaseQuestionRepository questionRepository;
+
+    private final PurchaseAnswerRepository answerRepository;
 
     @Autowired
-    private PurchaseQuestionRepository questionRepository;
-
-    @Autowired
-    private PurchaseAnswerRepository answerRepository;
+    public PurchaseService(PurchaseRepository purchaseRepository, PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository) {
+        this.purchaseRepository = purchaseRepository;
+        this.questionRepository = questionRepository;
+        this.answerRepository = answerRepository;
+    }
 
     @Override
     public void create(String name) {
-        PurchaseEntity purchaseEntity = new PurchaseEntity();
-        purchaseEntity.setId(UUID.randomUUID());
-        purchaseEntity.setName(name);
+        PurchaseEntity purchaseEntity = new PurchaseEntity(name);
 
         purchaseRepository.save(purchaseEntity);
     }
 
     @Override
     public void create(String name, UUID id) {
-        PurchaseEntity purchaseEntity = new PurchaseEntity();
+        PurchaseEntity purchaseEntity = new PurchaseEntity(name);
         purchaseEntity.setId(id);
-        purchaseEntity.setName(name);
 
         purchaseRepository.save(purchaseEntity);
     }

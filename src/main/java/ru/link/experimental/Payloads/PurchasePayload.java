@@ -3,36 +3,42 @@ package ru.link.experimental.Payloads;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.link.experimental.DTO.PurchaseDTO;
-import ru.link.experimental.Services.PurchaseServices.*;
+import ru.link.experimental.Services.PurchaseServices.Implements.*;
 
 import java.util.*;
 
 @Component
 public class PurchasePayload {
 
-    @Autowired
-    private PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
 
-    @Autowired
-    private PurchaseQuestionService questionService;
+    private final PurchaseQuestionService questionService;
 
-    @Autowired
-    private PurchaseAnswerService answerService;
+    private final PurchaseAnswerService answerService;
 
     List<UUID> purchaseUUIDs = new ArrayList<>();
     List<UUID> questionUUIDs = new ArrayList<>();
 
+    @Autowired
+    public PurchasePayload(PurchaseService purchaseService, PurchaseQuestionService questionService, PurchaseAnswerService answerService) {
+        this.purchaseService = purchaseService;
+        this.questionService = questionService;
+        this.answerService = answerService;
+    }
+
     public void create(){
         for (int i = 0; i < 10; ++i){
             UUID pId = UUID.randomUUID();
-            UUID qId = UUID.randomUUID();
 
             purchaseUUIDs.add(pId);
-            questionUUIDs.add(qId);
 
             purchaseService.create("purchase №" + i, pId);
-            questionService.create(qId, pId, "question №" + i, "content of question №" + i);
-            answerService.create(qId, "content of answer №" + i);
+            for (int j = 0; j < 5; ++j){
+                UUID qId = UUID.randomUUID();
+                questionUUIDs.add(qId);
+                questionService.create(qId, pId, "question №" + j, "content of question №" + j);
+                answerService.create(qId, "content of answer №" + j);
+            }
         }
     }
 
