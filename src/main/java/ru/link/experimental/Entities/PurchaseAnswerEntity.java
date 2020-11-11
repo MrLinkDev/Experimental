@@ -26,4 +26,8 @@ public class PurchaseAnswerEntity {
     @Column(name = "content")
     @NonNull
     private String content;
+
+    @Column(name = "publicity")
+    @NonNull
+    private boolean publicity;
 }

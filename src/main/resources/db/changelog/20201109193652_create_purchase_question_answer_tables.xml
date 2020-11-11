@@ -46,6 +46,10 @@
             <column name="content" type="text">
                 <constraints nullable="false"/>
             </column>
+
+            <column name="publicity" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

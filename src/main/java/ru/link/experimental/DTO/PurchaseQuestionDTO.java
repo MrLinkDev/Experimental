@@ -1,11 +1,13 @@
 package ru.link.experimental.DTO;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class PurchaseQuestionDTO {
-    private String name;
-    private String content;
+    @NonNull private String name;
+    @NonNull private String content;
 
     private PurchaseAnswerDTO answer;
 }

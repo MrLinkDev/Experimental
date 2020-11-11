@@ -20,15 +20,15 @@ public class PurchaseAnswerService implements PurchaseAnswerServiceInterface {
     }
 
     @Override
-    public void create(UUID questionId, String content) {
-        PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(questionId, content);
+    public void create(UUID questionId, String content, boolean publicity) {
+        PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(questionId, content, publicity);
 
         answerRepository.save(answerEntity);
     }
 
     @Override
-    public void create(UUID id, UUID questionId, String content) {
-        PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(questionId, content);
+    public void create(UUID id, UUID questionId, String content, boolean publicity) {
+        PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(questionId, content, publicity);
         answerEntity.setId(id);
 
         answerRepository.save(answerEntity);

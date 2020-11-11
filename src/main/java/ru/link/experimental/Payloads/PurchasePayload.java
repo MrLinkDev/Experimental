@@ -37,7 +37,7 @@ public class PurchasePayload {
                 UUID qId = UUID.randomUUID();
                 questionUUIDs.add(qId);
                 questionService.create(qId, pId, "question №" + j, "content of question №" + j);
-                answerService.create(qId, "content of answer №" + j);
+                answerService.create(qId, "content of answer №" + j, true);
             }
         }
     }

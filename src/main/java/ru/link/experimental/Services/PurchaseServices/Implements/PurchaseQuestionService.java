@@ -1,6 +1,8 @@
 package ru.link.experimental.Services.PurchaseServices.Implements;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
 import ru.link.experimental.DTO.*;
 import ru.link.experimental.Entities.PurchaseQuestionEntity;
@@ -50,5 +52,28 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
         questionDTO.setAnswer(answerDTO);
 
         return questionDTO;
+    }
+
+    @Override
+    public List<PurchaseQuestionDTO> getPage(int pageNumber, int pageSize) {
+        if (pageSize > 100) {
+            pageSize = 10;
+        }
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<PurchaseQuestionEntity> page = questionRepository.findAll(pageable);
+
+        List<PurchaseQuestionDTO> out = new ArrayList<>();
+        for (PurchaseQuestionEntity questionEntity : page){
+            PurchaseQuestionDTO questionDTO = new PurchaseQuestionDTO(questionEntity.getName(), questionEntity.getContent());
+            PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO(
+                    answerRepository.findByQuestionId(questionEntity.getId()).getContent(),
+                    answerRepository.findByQuestionId(questionEntity.getId()).isPublicity()
+            );
+            questionDTO.setAnswer(answerDTO);
+            out.add(questionDTO);
+        }
+
+        return out;
     }
 }

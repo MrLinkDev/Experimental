@@ -2,7 +2,7 @@ package ru.link.experimental.Services.PurchaseServices;
 
 import ru.link.experimental.DTO.PurchaseQuestionDTO;
 
-import java.util.UUID;
+import java.util.*;
 
 public interface PurchaseQuestionServiceInterface {
 
@@ -11,5 +11,7 @@ public interface PurchaseQuestionServiceInterface {
     void create(UUID id, UUID purchaseId, String name, String content);
 
     PurchaseQuestionDTO get(UUID id);
+
+    List<PurchaseQuestionDTO> getPage(int pageNumber, int pageSize);
 
 }
