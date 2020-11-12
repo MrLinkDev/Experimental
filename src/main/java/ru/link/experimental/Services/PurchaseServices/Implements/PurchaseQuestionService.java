@@ -6,8 +6,10 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
 import ru.link.experimental.DTO.*;
 import ru.link.experimental.Entities.PurchaseQuestionEntity;
+import ru.link.experimental.Exceptions.PageExceptions.*;
 import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.PurchaseServices.PurchaseQuestionServiceInterface;
+import ru.link.experimental.Validate.PageValidator;
 
 import java.util.*;
 
@@ -18,10 +20,13 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     private final PurchaseAnswerRepository answerRepository;
 
+    private final PageValidator pageValidator;
+
     @Autowired
-    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository) {
+    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository, PageValidator pageValidator) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
+        this.pageValidator = pageValidator;
     }
 
     @Override
@@ -69,12 +74,15 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
     }
 
     @Override
-    public List<PurchaseQuestionDTO> getPage(int pageNumber, int pageSize) {
+    public List<PurchaseQuestionDTO> getPage(int pageIndex, int pageSize) throws PageIndexException, PageSizeException {
+        pageValidator.checkPageIndex(pageIndex);
+        pageValidator.checkPageSize(pageSize);
+
         if (pageSize > 100) {
             pageSize = 10;
         }
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
         Page<PurchaseQuestionEntity> page = questionRepository.findAll(pageable);
 
         List<PurchaseQuestionDTO> out = new ArrayList<>();

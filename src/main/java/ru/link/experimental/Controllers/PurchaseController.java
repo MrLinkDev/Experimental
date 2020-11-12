@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.link.experimental.DTO.PurchaseQuestionDTO;
+import ru.link.experimental.Exceptions.PageExceptions.*;
 import ru.link.experimental.Services.PurchaseServices.Implements.*;
 
 import java.util.*;
@@ -27,8 +28,8 @@ public class PurchaseController {
 
     @GetMapping("/purchaseQuestion")
     @ResponseStatus(HttpStatus.OK)
-    public List<PurchaseQuestionDTO> getListOfPurchaseQuestions(int pageNumber, int pageSize){
-        return questionService.getPage(pageNumber, pageSize);
+    public List<PurchaseQuestionDTO> getListOfPurchaseQuestions(int pageIndex, int pageSize) throws PageSizeException, PageIndexException {
+        return questionService.getPage(pageIndex, pageSize);
     }
 
     @PostMapping("/purchaseAnswer")

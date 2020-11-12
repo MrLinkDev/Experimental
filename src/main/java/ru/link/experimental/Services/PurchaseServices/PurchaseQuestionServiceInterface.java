@@ -1,6 +1,7 @@
 package ru.link.experimental.Services.PurchaseServices;
 
 import ru.link.experimental.DTO.PurchaseQuestionDTO;
+import ru.link.experimental.Exceptions.PageExceptions.*;
 
 import java.util.*;
 
@@ -16,6 +17,6 @@ public interface PurchaseQuestionServiceInterface {
 
     PurchaseQuestionDTO get(UUID id);
 
-    List<PurchaseQuestionDTO> getPage(int pageNumber, int pageSize);
+    List<PurchaseQuestionDTO> getPage(int pageIndex, int pageSize) throws PageIndexException, PageSizeException;
 
 }
