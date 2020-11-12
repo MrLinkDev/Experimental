@@ -40,6 +40,20 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
     }
 
     @Override
+    public void update(UUID id, Optional<String> name, Optional<String> content) {
+        Optional<PurchaseQuestionEntity> questionEntity = questionRepository.findById(id);
+        if (name.isPresent()) questionEntity.get().setName(name.get());
+        if (content.isPresent()) questionEntity.get().setContent(content.get());
+
+        questionRepository.saveAndFlush(questionEntity.get());
+    }
+
+    @Override
+    public void delete(UUID id) {
+        questionRepository.deleteById(id);
+    }
+
+    @Override
     public PurchaseQuestionDTO get(UUID id) {
         Optional<PurchaseQuestionEntity> question = questionRepository.findByPurchaseId(id);
 
