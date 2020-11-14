@@ -2,14 +2,13 @@ package ru.link.experimental.Services.PurchaseServices.Implements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
 import ru.link.experimental.DTO.*;
 import ru.link.experimental.Entities.PurchaseQuestionEntity;
 import ru.link.experimental.Exceptions.PageExceptions.*;
 import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.PurchaseServices.PurchaseQuestionServiceInterface;
-import ru.link.experimental.Validate.PageValidator;
+import ru.link.experimental.Validate.Validator;
 
 import java.util.*;
 
@@ -20,13 +19,13 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     private final PurchaseAnswerRepository answerRepository;
 
-    private final PageValidator pageValidator;
+    private final Validator validator;
 
     @Autowired
-    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository, PageValidator pageValidator) {
+    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository, Validator validator) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
-        this.pageValidator = pageValidator;
+        this.validator = validator;
     }
 
     @Override
@@ -75,8 +74,8 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     @Override
     public List<PurchaseQuestionDTO> getPage(int pageIndex, int pageSize) throws PageIndexException, PageSizeException {
-        pageValidator.checkPageIndex(pageIndex);
-        pageValidator.checkPageSize(pageSize);
+        //validator.checkPageIndex(pageIndex);
+        //validator.checkPageSize(pageSize);
 
         if (pageSize > 100) {
             pageSize = 10;

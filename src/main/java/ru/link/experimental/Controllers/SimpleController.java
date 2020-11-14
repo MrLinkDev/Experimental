@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.link.experimental.DTO.PurchaseDTO;
 import ru.link.experimental.Payloads.PurchasePayload;
 import ru.link.experimental.Services.MailService;
+import ru.link.experimental.Validate.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -34,6 +35,11 @@ public class SimpleController {
     @GetMapping("/purchaseTest")
     public List<PurchaseDTO> purchaseTestGet(){
         return purchasePayload.getAll();
+    }
+
+    @GetMapping("/loginTest")
+    public ValidatorResponse testLoginValidator(@RequestParam String login){
+        return Validator.validateLogin(login);
     }
 
 }
