@@ -8,7 +8,7 @@ import ru.link.experimental.Entities.PurchaseQuestionEntity;
 import ru.link.experimental.Exceptions.PageExceptions.*;
 import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.PurchaseServices.PurchaseQuestionServiceInterface;
-import ru.link.experimental.Validate.Validator;
+import ru.link.experimental.Validate.UserValidator;
 
 import java.util.*;
 
@@ -19,13 +19,13 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     private final PurchaseAnswerRepository answerRepository;
 
-    private final Validator validator;
+    private final UserValidator userValidator;
 
     @Autowired
-    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository, Validator validator) {
+    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository, UserValidator userValidator) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
-        this.validator = validator;
+        this.userValidator = userValidator;
     }
 
     @Override

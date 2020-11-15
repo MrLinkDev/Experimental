@@ -67,4 +67,6 @@ public class ValidatorMessages {
     public static final String WRONG_SYMBOLS_IN_EMAIL_ERROR = "E-mail must contain only latin symbols, digits, \"_\", \"-\", \".\" and \"@\".";
 
     public static final String EMAIL_ALREADY_EXIST_ERROR = "This e-mail already exist!";
+
+    public static final String WRONG_COMPANY_DESCRIPTION_SIZE_ERROR = "Wrong company description size!";
 }

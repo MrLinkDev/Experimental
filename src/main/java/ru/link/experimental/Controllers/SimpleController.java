@@ -3,7 +3,6 @@ package ru.link.experimental.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.link.experimental.DTO.*;
-import ru.link.experimental.Entities.*;
 import ru.link.experimental.Payloads.PurchasePayload;
 import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.MailService;
@@ -69,7 +68,8 @@ public class SimpleController {
 
     @GetMapping("/loginTest")
     public ValidatorResponse testLoginValidator(@RequestParam String login){
-        return Validator.validateLogin(login);
+        return null;
+        //return UserValidator.validateLogin(login);
     }
 
 }
