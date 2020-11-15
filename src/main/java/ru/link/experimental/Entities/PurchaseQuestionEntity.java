@@ -1,5 +1,6 @@
 package ru.link.experimental.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,4 +31,7 @@ public class PurchaseQuestionEntity {
     @Column(name = "content")
     @NonNull
     private String content;
+
+    @OneToOne(fetch=FetchType.LAZY, mappedBy = "questionId")
+    private PurchaseAnswerEntity answer;
 }

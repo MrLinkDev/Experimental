@@ -62,7 +62,7 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
         Optional<PurchaseQuestionEntity> question = questionRepository.findByPurchaseId(id);
 
         PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO();
-        answerDTO.setContent(answerRepository.findByQuestionId(question.get().getId()).getContent());
+        answerDTO.setContent(question.get().getAnswer().getContent());
 
         PurchaseQuestionDTO questionDTO = new PurchaseQuestionDTO();
         questionDTO.setName(question.get().getName());

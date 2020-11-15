@@ -23,6 +23,6 @@ public class PurchaseEntity {
     @NonNull
     private String name;
 
-    @OneToMany
-    Set<PurchaseQuestionEntity> questions;
+    @OneToMany(mappedBy = "purchaseId")
+    private List<PurchaseQuestionEntity> questions;
 }

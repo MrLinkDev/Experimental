@@ -3,9 +3,9 @@ package ru.link.experimental.DTO;
 import lombok.*;
 
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseAnswerDTO {
-    @NonNull private String content;
+    private String content;
     @NonNull private boolean publicity;
 }

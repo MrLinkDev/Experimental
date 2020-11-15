@@ -43,13 +43,18 @@ public class PurchaseService implements PurchaseServiceInterface {
     @Override
     public PurchaseDTO get(UUID id) {
         Optional<PurchaseEntity> purchaseEntity = purchaseRepository.findById(id);
-        List<PurchaseQuestionEntity> questionList = questionRepository.findAllByPurchaseId(id);
+
+        List<PurchaseQuestionEntity> questionList = purchaseEntity.get().getQuestions();
 
         List<PurchaseQuestionDTO> questionDTOList = new ArrayList<>();
 
         for (PurchaseQuestionEntity question : questionList) {
             PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO();
-            answerDTO.setContent(answerRepository.findByQuestionId(question.getId()).getContent());
+            if (question.getAnswer() == null){
+                answerDTO.setContent(null);
+            } else {
+                answerDTO.setContent(question.getAnswer().getContent());
+            }
 
             PurchaseQuestionDTO questionDTO = new PurchaseQuestionDTO();
             questionDTO.setName(question.getName());

@@ -1,5 +1,6 @@
 package ru.link.experimental.Entities;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,9 +20,10 @@ public class PurchaseAnswerEntity {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "question_id")
-    @NonNull
-    private UUID questionId;
+    @OneToOne
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    @JsonIgnore
+    private PurchaseQuestionEntity questionId;
 
     @Column(name = "content")
     @NonNull
