@@ -8,7 +8,6 @@ import ru.link.experimental.Entities.PurchaseQuestionEntity;
 import ru.link.experimental.Exceptions.PageExceptions.*;
 import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.PurchaseServices.PurchaseQuestionServiceInterface;
-import ru.link.experimental.Validate.UserValidator;
 
 import java.util.*;
 
@@ -19,13 +18,10 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     private final PurchaseAnswerRepository answerRepository;
 
-    private final UserValidator userValidator;
-
     @Autowired
-    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository, UserValidator userValidator) {
+    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
-        this.userValidator = userValidator;
     }
 
     @Override
@@ -36,20 +32,12 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
     }
 
     @Override
-    public void create(UUID id, UUID purchaseId, String name, String content) {
-        PurchaseQuestionEntity questionEntity = new PurchaseQuestionEntity(purchaseId, name, content);
-        questionEntity.setId(id);
+    public void update(UUID id, String name, String content) {
+        PurchaseQuestionEntity questionEntity = questionRepository.getOne(id);
+        questionEntity.setName(name);
+        questionEntity.setContent(content);
 
-        questionRepository.save(questionEntity);
-    }
-
-    @Override
-    public void update(UUID id, Optional<String> name, Optional<String> content) {
-        Optional<PurchaseQuestionEntity> questionEntity = questionRepository.findById(id);
-        if (name.isPresent()) questionEntity.get().setName(name.get());
-        if (content.isPresent()) questionEntity.get().setContent(content.get());
-
-        questionRepository.saveAndFlush(questionEntity.get());
+        questionRepository.saveAndFlush(questionEntity);
     }
 
     @Override
@@ -59,14 +47,15 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     @Override
     public PurchaseQuestionDTO get(UUID id) {
-        Optional<PurchaseQuestionEntity> question = questionRepository.findByPurchaseId(id);
+        PurchaseQuestionEntity question = questionRepository.getOne(id);
 
         PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO();
-        answerDTO.setContent(question.get().getAnswer().getContent());
+        //FIXME
+        if (question.getAnswer() != null) answerDTO.setContent(question.getAnswer().getContent());
 
         PurchaseQuestionDTO questionDTO = new PurchaseQuestionDTO();
-        questionDTO.setName(question.get().getName());
-        questionDTO.setContent(question.get().getContent());
+        questionDTO.setName(question.getName());
+        questionDTO.setContent(question.getContent());
         questionDTO.setAnswer(answerDTO);
 
         return questionDTO;
@@ -74,9 +63,6 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     @Override
     public List<PurchaseQuestionDTO> getPage(int pageIndex, int pageSize) throws PageIndexException, PageSizeException {
-        //validator.checkPageIndex(pageIndex);
-        //validator.checkPageSize(pageSize);
-
         if (pageSize > 100) {
             pageSize = 10;
         }
@@ -87,10 +73,8 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
         List<PurchaseQuestionDTO> out = new ArrayList<>();
         for (PurchaseQuestionEntity questionEntity : page){
             PurchaseQuestionDTO questionDTO = new PurchaseQuestionDTO(questionEntity.getName(), questionEntity.getContent());
-            PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO(
-                    answerRepository.findByQuestionId(questionEntity.getId()).getContent(),
-                    answerRepository.findByQuestionId(questionEntity.getId()).isPublicity()
-            );
+            PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO(questionEntity.getAnswer().getContent(), questionEntity.getAnswer().isPublicity());
+
             questionDTO.setAnswer(answerDTO);
             out.add(questionDTO);
         }

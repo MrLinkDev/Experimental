@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.link.experimental.DTO.*;
 import ru.link.experimental.Entities.*;
-import ru.link.experimental.Repositories.PurchaseAnswerRepository;
+import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.PurchaseServices.PurchaseAnswerServiceInterface;
 
 import java.util.*;
@@ -14,33 +14,32 @@ public class PurchaseAnswerService implements PurchaseAnswerServiceInterface {
 
     private final PurchaseAnswerRepository answerRepository;
 
+    private final PurchaseQuestionRepository questionRepository;
+
     @Autowired
-    public PurchaseAnswerService(PurchaseAnswerRepository answerRepository) {
+    public PurchaseAnswerService(PurchaseAnswerRepository answerRepository, PurchaseQuestionRepository questionRepository) {
         this.answerRepository = answerRepository;
+        this.questionRepository = questionRepository;
     }
 
     @Override
     public void create(UUID questionId, String content, boolean publicity) {
-        //PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(questionId, content, publicity);
+        PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(
+                questionRepository.getOne(questionId),
+                content,
+                publicity
+        );
 
-        //answerRepository.save(answerEntity);
+        answerRepository.save(answerEntity);
     }
 
     @Override
-    public void create(UUID id, UUID questionId, String content, boolean publicity) {
-        //PurchaseAnswerEntity answerEntity = new PurchaseAnswerEntity(questionId, content, publicity);
-        //answerEntity.setId(id);
+    public void update(UUID id, String content, Boolean publicity) {
+        PurchaseAnswerEntity answerEntity = answerRepository.getOne(id);
+        answerEntity.setContent(content);
+        answerEntity.setPublicity(publicity);
 
-        //answerRepository.save(answerEntity);
-    }
-
-    @Override
-    public void update(UUID id, Optional<String> content, Optional<Boolean> publicity) {
-        Optional<PurchaseAnswerEntity> answerEntity = answerRepository.findById(id);
-        if (content.isPresent()) answerEntity.get().setContent(content.get());
-        if (publicity.isPresent()) answerEntity.get().setPublicity(publicity.get());
-
-        answerRepository.saveAndFlush(answerEntity.get());
+        answerRepository.saveAndFlush(answerEntity);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class PurchaseAnswerService implements PurchaseAnswerServiceInterface {
     @Override
     public PurchaseAnswerDTO get(UUID id) {
         PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO();
-        answerDTO.setContent(answerRepository.findById(id).get().getContent());
+        answerDTO.setContent(answerRepository.getOne(id).getContent());
 
         return answerDTO;
     }

@@ -8,9 +8,7 @@ public interface PurchaseAnswerServiceInterface {
 
     void create(UUID questionId, String content, boolean publicity);
 
-    void create(UUID id, UUID questionId, String content, boolean publicity);
-
-    void update(UUID id, Optional<String> content, Optional<Boolean> publicity);
+    void update(UUID id, String content, Boolean publicity);
 
     void delete(UUID id);
 

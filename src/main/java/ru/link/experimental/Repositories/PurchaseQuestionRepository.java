@@ -11,4 +11,6 @@ public interface PurchaseQuestionRepository extends JpaRepository<PurchaseQuesti
 
     List<PurchaseQuestionEntity> findAllByPurchaseId(UUID purchaseId);
 
+    PurchaseQuestionEntity getById(UUID purchaseId);
+
 }

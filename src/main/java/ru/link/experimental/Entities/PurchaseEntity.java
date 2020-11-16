@@ -25,4 +25,7 @@ public class PurchaseEntity {
 
     @OneToMany(mappedBy = "purchaseId")
     private List<PurchaseQuestionEntity> questions;
+
+    @OneToMany(mappedBy = "purchaseId")
+    private List<SupplyEntity> supplies;
 }

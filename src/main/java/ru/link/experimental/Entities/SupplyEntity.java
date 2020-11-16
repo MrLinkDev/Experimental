@@ -1,6 +1,5 @@
 package ru.link.experimental.Entities;
 
-import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,10 +8,10 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "purchase_answer", schema = "experimental_app", catalog = "experimental")
+@Table(name = "supply", schema = "experimental_app", catalog = "experimental")
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class PurchaseAnswerEntity {
+public class SupplyEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -20,17 +19,24 @@ public class PurchaseAnswerEntity {
     @Column(name = "id")
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
-    @JsonIgnore
+    @Column(name = "purchase_id")
     @NonNull
-    private PurchaseQuestionEntity questionId;
+    private UUID purchaseId;
 
-    @Column(name = "content")
+    @Column(name = "cost")
     @NonNull
-    private String content;
+    private long cost;
 
-    @Column(name = "publicity")
+    @Column(name = "t_stack")
     @NonNull
-    private boolean publicity;
+    private String tStack;
+
+    @Column(name = "structure")
+    @NonNull
+    private String structure;
+
+    @Column(name = "comment")
+    @NonNull
+    private String comment;
+
 }

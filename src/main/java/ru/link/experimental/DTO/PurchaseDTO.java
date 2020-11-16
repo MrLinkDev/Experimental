@@ -9,4 +9,6 @@ public class PurchaseDTO {
     private String name;
 
     private List<PurchaseQuestionDTO> questions;
+
+    private List<SupplyDTO> supplies;
 }

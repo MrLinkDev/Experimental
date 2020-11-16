@@ -3,6 +3,7 @@ package ru.link.experimental.Validate;
 import java.util.regex.*;
 
 public abstract class Validator {
+
     public boolean isEmpty(String field){
         return field.isEmpty();
     }

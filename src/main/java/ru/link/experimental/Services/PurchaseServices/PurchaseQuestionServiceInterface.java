@@ -9,9 +9,7 @@ public interface PurchaseQuestionServiceInterface {
 
     void create(UUID purchaseId, String name, String content);
 
-    void create(UUID id, UUID purchaseId, String name, String content);
-
-    void update(UUID id, Optional<String> name, Optional<String> content);
+    void update(UUID id, String name, String content);
 
     void delete(UUID id);
 

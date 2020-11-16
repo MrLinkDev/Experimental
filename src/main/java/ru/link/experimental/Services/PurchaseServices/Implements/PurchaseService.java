@@ -14,15 +14,9 @@ public class PurchaseService implements PurchaseServiceInterface {
 
     private final PurchaseRepository purchaseRepository;
 
-    private final PurchaseQuestionRepository questionRepository;
-
-    private final PurchaseAnswerRepository answerRepository;
-
     @Autowired
-    public PurchaseService(PurchaseRepository purchaseRepository, PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository) {
+    public PurchaseService(PurchaseRepository purchaseRepository) {
         this.purchaseRepository = purchaseRepository;
-        this.questionRepository = questionRepository;
-        this.answerRepository = answerRepository;
     }
 
     @Override
@@ -48,6 +42,14 @@ public class PurchaseService implements PurchaseServiceInterface {
 
         List<PurchaseQuestionDTO> questionDTOList = new ArrayList<>();
 
+        List<SupplyEntity> supplyList = purchaseEntity.get().getSupplies();
+
+        List<SupplyDTO> supplyDTOList = new ArrayList<>();
+
+        for (SupplyEntity supplyEntity : supplyList){
+            supplyDTOList.add(new SupplyDTO(supplyEntity.getCost(), supplyEntity.getTStack(), supplyEntity.getStructure(), supplyEntity.getComment()));
+        }
+
         for (PurchaseQuestionEntity question : questionList) {
             PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO();
             if (question.getAnswer() == null){
@@ -67,6 +69,7 @@ public class PurchaseService implements PurchaseServiceInterface {
         PurchaseDTO purchaseDTO = new PurchaseDTO();
         purchaseDTO.setName(purchaseEntity.get().getName());
         purchaseDTO.setQuestions(questionDTOList);
+        purchaseDTO.setSupplies(supplyDTOList);
         return purchaseDTO;
     }
 }
