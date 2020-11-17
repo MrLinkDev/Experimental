@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.link.experimental.DTO.*;
 import ru.link.experimental.Entities.PurchaseQuestionEntity;
 import ru.link.experimental.Exceptions.PageExceptions.*;
+import ru.link.experimental.Exceptions.QuestionException;
 import ru.link.experimental.Repositories.*;
 import ru.link.experimental.Services.PurchaseServices.PurchaseQuestionServiceInterface;
+import ru.link.experimental.Validate.*;
 
 import java.util.*;
 
@@ -15,24 +17,52 @@ import java.util.*;
 public class PurchaseQuestionService implements PurchaseQuestionServiceInterface {
 
     private final PurchaseQuestionRepository questionRepository;
-
-    private final PurchaseAnswerRepository answerRepository;
+    private final PurchaseQuestionValidator questionValidator;
 
     @Autowired
-    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository, PurchaseAnswerRepository answerRepository) {
+    public PurchaseQuestionService(PurchaseQuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
-        this.answerRepository = answerRepository;
+
+        questionValidator = new PurchaseQuestionValidator();
     }
 
     @Override
-    public void create(UUID purchaseId, String name, String content) {
+    public void create(UUID purchaseId, String name, String content) throws QuestionException {
+        ValidatorResponse validatorResponse;
+
+        if ((validatorResponse = questionValidator.validatePurchaseId(purchaseId)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
+        if ((validatorResponse = questionValidator.validateName(name)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
+        if ((validatorResponse = questionValidator.validateContent(content)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
         PurchaseQuestionEntity questionEntity = new PurchaseQuestionEntity(purchaseId, name, content);
 
         questionRepository.save(questionEntity);
     }
 
     @Override
-    public void update(UUID id, String name, String content) {
+    public void update(UUID id, String name, String content) throws QuestionException {
+        ValidatorResponse validatorResponse;
+
+        if ((validatorResponse = questionValidator.validateQuestionId(id)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
+        if ((validatorResponse = questionValidator.validateName(name)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
+        if ((validatorResponse = questionValidator.validateContent(content)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
         PurchaseQuestionEntity questionEntity = questionRepository.getOne(id);
         questionEntity.setName(name);
         questionEntity.setContent(content);
@@ -41,16 +71,27 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(UUID id) throws QuestionException {
+        ValidatorResponse validatorResponse;
+
+        if ((validatorResponse = questionValidator.validateQuestionId(id)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
         questionRepository.deleteById(id);
     }
 
     @Override
-    public PurchaseQuestionDTO get(UUID id) {
+    public PurchaseQuestionDTO get(UUID id) throws QuestionException {
+        ValidatorResponse validatorResponse;
+
+        if ((validatorResponse = questionValidator.validateQuestionId(id)).getValidatorStatus() == ValidatorStatus.ERROR){
+            throw new QuestionException(validatorResponse);
+        }
+
         PurchaseQuestionEntity question = questionRepository.getOne(id);
 
         PurchaseAnswerDTO answerDTO = new PurchaseAnswerDTO();
-        //FIXME
         if (question.getAnswer() != null) answerDTO.setContent(question.getAnswer().getContent());
 
         PurchaseQuestionDTO questionDTO = new PurchaseQuestionDTO();
@@ -63,6 +104,12 @@ public class PurchaseQuestionService implements PurchaseQuestionServiceInterface
 
     @Override
     public List<PurchaseQuestionDTO> getPage(int pageIndex, int pageSize) throws PageIndexException, PageSizeException {
+        if (pageIndex < 0) {
+            throw new PageIndexException();
+        }
+        if (pageSize < 1) {
+            throw new PageSizeException();
+        }
         if (pageSize > 100) {
             pageSize = 10;
         }

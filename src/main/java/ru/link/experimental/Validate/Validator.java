@@ -1,8 +1,13 @@
 package ru.link.experimental.Validate;
 
+import java.util.UUID;
 import java.util.regex.*;
 
 public abstract class Validator {
+
+    public boolean isNull(Object object){
+        return object == null;
+    }
 
     public boolean isEmpty(String field){
         return field.isEmpty();
@@ -31,6 +36,14 @@ public abstract class Validator {
     }
 
     public boolean isExist(String field){
+        /**
+         * TODO: Проверка на существование такого же поля в БД
+         */
+
+        return false;
+    }
+
+    public boolean isExist(UUID uuid){
         /**
          * TODO: Проверка на существование такого же поля в БД
          */

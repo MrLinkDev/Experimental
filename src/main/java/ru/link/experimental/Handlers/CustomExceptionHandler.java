@@ -7,7 +7,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.link.experimental.DTO.ErrorDTO;
+import ru.link.experimental.Exceptions.*;
 import ru.link.experimental.Exceptions.PageExceptions.*;
+import ru.link.experimental.Validate.ValidatorResponse;
 
 /**
  * Обработчик исключений
@@ -43,6 +45,24 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handlePageSortException(){
         ErrorDTO errorModel = PageSortException.getErrorModel();
         return new ResponseEntity(errorModel, errorModel.getHttpStatus());
+    }
+
+    @ExceptionHandler(QuestionException.class)
+    protected ResponseEntity<Object> handleQuestionException(){
+        ValidatorResponse validatorResponse = QuestionException.getValidatorResponse();
+        return new ResponseEntity(validatorResponse, validatorResponse.getHttpStatus());
+    }
+
+    @ExceptionHandler(AnswerException.class)
+    protected ResponseEntity<Object> handleAnswerException(){
+        ValidatorResponse validatorResponse = AnswerException.getValidatorResponse();
+        return new ResponseEntity(validatorResponse, validatorResponse.getHttpStatus());
+    }
+
+    @ExceptionHandler(SupplyException.class)
+    protected ResponseEntity<Object> handleSupplyException(){
+        ValidatorResponse validatorResponse = SupplyException.getValidatorResponse();
+        return new ResponseEntity(validatorResponse, validatorResponse.getHttpStatus());
     }
 
 

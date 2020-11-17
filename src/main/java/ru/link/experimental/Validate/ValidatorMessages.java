@@ -4,6 +4,8 @@ public class ValidatorMessages {
 
     public static final String OK = "OK";
 
+    //User messages
+
     public static final String EMPTY_LOGIN_FIELD_ERROR = "Login field must be not null!";
 
     public static final String WRONG_LOGIN_SIZE_ERROR = "Wrong login size!";
@@ -69,4 +71,45 @@ public class ValidatorMessages {
     public static final String EMAIL_ALREADY_EXIST_ERROR = "This e-mail already exist!";
 
     public static final String WRONG_COMPANY_DESCRIPTION_SIZE_ERROR = "Wrong company description size!";
+
+    //Question messages
+
+    public static final String WRONG_QUESTION_ID_ERROR = "This question doesn't exist!";
+
+    public static final String EMPTY_QUESTION_PURCHASE_ID_ERROR = "Question purchase ID must be not null!";
+
+    public static final String WRONG_QUESTION_PURCHASE_ID_ERROR = "This question purchase ID doesn't exist!";
+
+    public static final String EMPTY_QUESTION_NAME_ERROR = "Question name must be not null!";
+
+    public static final String EMPTY_QUESTION_CONTENT_ERROR = "Question content must be not null!";
+
+    //Answer messages
+
+    public static final String WRONG_ANSWER_ID_ERROR = "This answer doesn't exist!";
+
+    public static final String EMPTY_ANSWER_QUESTION_ID_ERROR = "Answer question ID must be not null!";
+
+    public static final String WRONG_ANSWER_QUESTION_ID_ERROR = "This answer question ID doesn't exist!";
+
+    public static final String EMPTY_ANSWER_CONTENT_ERROR = "Answer content must be not null!";
+
+    public static final String EMPTY_ANSWER_PUBLICITY_ERROR = "Answer publicity must be not null!";
+
+    //Supply messages
+
+    public static final String WRONG_SUPPLY_ID_ERROR = "This supply doesn't exist!";
+
+    public static final String EMPTY_SUPPLY_ID_ERROR = "Supply ID must be not null!";
+
+    public static final String EMPTY_PURCHASE_ID_ERROR = "Purchase ID must be not null!";
+
+    public static final String WRONG_PURCHASE_ID_ERROR = "This purchase doesn't exist!";
+
+    public static final String EMPTY_COST_ERROR = "Cost must be not null!";
+
+    public static final String EMPTY_T_STACK_ERROR = "Technology stack must be not null!";
+
+    public static final String EMPTY_STRUCTURE_ERROR = "Structure must be not null!";
+
 }
