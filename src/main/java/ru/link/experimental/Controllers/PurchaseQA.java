@@ -2,6 +2,7 @@ package ru.link.experimental.Controllers;
 
 import org.springframework.web.bind.annotation.*;
 import ru.link.experimental.DTO.*;
+import ru.link.experimental.Exceptions.*;
 import ru.link.experimental.Exceptions.PageExceptions.*;
 import ru.link.experimental.Services.PurchaseServices.Implements.*;
 
@@ -20,42 +21,42 @@ public class PurchaseQA {
     }
 
     @PostMapping("/question")
-    public void createQuestion(@RequestParam UUID purchaseId, @RequestParam String name, @RequestParam String content){
+    public void createQuestion(@RequestParam UUID purchaseId, @RequestParam String name, @RequestParam String content) throws QuestionException {
         questionService.create(purchaseId, name, content);
     }
 
     @PostMapping("/answer")
-    public void createAnswer(@RequestParam UUID questionId, @RequestParam String content, @RequestParam boolean publicity){
+    public void createAnswer(@RequestParam UUID questionId, @RequestParam String content, @RequestParam boolean publicity) throws AnswerException {
         answerService.create(questionId, content, publicity);
     }
 
     @PutMapping("/question/{id}")
-    public void updateQuestion(@PathVariable("id") UUID id, @RequestParam String name, @RequestParam String content){
+    public void updateQuestion(@PathVariable("id") UUID id, @RequestParam String name, @RequestParam String content) throws QuestionException {
         questionService.update(id, name, content);
     }
 
     @PutMapping("/answer/{id}")
-    public void updateAnswer(@PathVariable("id") UUID id, @RequestParam String content, @RequestParam boolean publicity){
+    public void updateAnswer(@PathVariable("id") UUID id, @RequestParam String content, @RequestParam boolean publicity) throws AnswerException {
         answerService.update(id, content, publicity);
     }
 
     @DeleteMapping("/question/{id}")
-    public void deleteQuestion(@PathVariable("id") UUID id){
+    public void deleteQuestion(@PathVariable("id") UUID id) throws QuestionException {
         questionService.delete(id);
     }
 
     @DeleteMapping("/answer/{id}")
-    public void deleteAnswer(@PathVariable("id") UUID id){
+    public void deleteAnswer(@PathVariable("id") UUID id) throws AnswerException {
         answerService.delete(id);
     }
 
     @GetMapping("/question/{id}")
-    public PurchaseQuestionDTO getQuestion(@PathVariable("id") UUID id){
+    public PurchaseQuestionDTO getQuestion(@PathVariable("id") UUID id) throws QuestionException {
         return questionService.get(id);
     }
 
     @GetMapping("/answer/{id}")
-    public PurchaseAnswerDTO getAnswer(@PathVariable("id") UUID id){
+    public PurchaseAnswerDTO getAnswer(@PathVariable("id") UUID id) throws AnswerException {
         return answerService.get(id);
     }
 

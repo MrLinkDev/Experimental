@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.link.experimental.DTO.SupplyDTO;
 import ru.link.experimental.Exceptions.PageExceptions.*;
+import ru.link.experimental.Exceptions.SupplyException;
 import ru.link.experimental.Services.PurchaseServices.Implements.SupplyService;
 
 import java.util.*;
@@ -19,23 +20,23 @@ public class SupplyController {
 
     @PostMapping("/supply")
     public void createSupply(@RequestParam UUID purchaseId, @RequestParam Long cost, @RequestParam String tStack,
-            @RequestParam String structure, @RequestParam String comment){
+            @RequestParam String structure, @RequestParam String comment) throws SupplyException {
         supplyService.create(purchaseId, cost, tStack, structure, comment);
     }
 
     @PutMapping("/supply/{id}")
     public void updateSupply(@PathVariable("id") UUID id, @RequestParam Long cost, @RequestParam String tStack,
-            @RequestParam String structure, @RequestParam String comment){
+            @RequestParam String structure, @RequestParam String comment) throws SupplyException {
         supplyService.update(id, cost, tStack, structure, comment);
     }
 
     @DeleteMapping("/supply/{id}")
-    public void deleteSupply(@PathVariable("id") UUID id){
+    public void deleteSupply(@PathVariable("id") UUID id) throws SupplyException {
         supplyService.delete(id);
     }
 
     @GetMapping("/supply/{id}")
-    public SupplyDTO getSupply(@PathVariable("id") UUID id){
+    public SupplyDTO getSupply(@PathVariable("id") UUID id) throws SupplyException {
         return supplyService.get(id);
     }
 
