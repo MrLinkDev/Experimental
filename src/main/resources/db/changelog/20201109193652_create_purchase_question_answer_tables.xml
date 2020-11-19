@@ -51,6 +51,54 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <createTable tableName="supply">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="supply_pkey" nullable="false"/>
+            </column>
+
+            <column name="purchase_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="cost" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="t_stack" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="structure" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="comment" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="file">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="file_pkey" nullable="false"/>
+            </column>
+
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="mime_type" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="size" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="hash" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

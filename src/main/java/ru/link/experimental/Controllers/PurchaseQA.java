@@ -20,47 +20,42 @@ public class PurchaseQA {
         this.answerService = answerService;
     }
 
-    @PostMapping("/question")
+    @PostMapping("/purchaseQuestion")
     public void createQuestion(@RequestParam UUID purchaseId, @RequestParam String name, @RequestParam String content) throws QuestionException {
         questionService.create(purchaseId, name, content);
     }
 
-    @PostMapping("/answer")
+    @PostMapping("/purchaseAnswer")
     public void createAnswer(@RequestParam UUID questionId, @RequestParam String content, @RequestParam boolean publicity) throws AnswerException {
         answerService.create(questionId, content, publicity);
     }
 
-    @PutMapping("/question/{id}")
-    public void updateQuestion(@PathVariable("id") UUID id, @RequestParam String name, @RequestParam String content) throws QuestionException {
+    @PutMapping("/purchaseQuestion")
+    public void updateQuestion(@RequestParam UUID id, @RequestParam String name, @RequestParam String content) throws QuestionException {
         questionService.update(id, name, content);
     }
 
-    @PutMapping("/answer/{id}")
-    public void updateAnswer(@PathVariable("id") UUID id, @RequestParam String content, @RequestParam boolean publicity) throws AnswerException {
+    @PutMapping("/purchaseAnswer")
+    public void updateAnswer(@RequestParam UUID id, @RequestParam String content, @RequestParam boolean publicity) throws AnswerException {
         answerService.update(id, content, publicity);
     }
 
-    @DeleteMapping("/question/{id}")
+    @DeleteMapping("/purchaseQuestion/{id}")
     public void deleteQuestion(@PathVariable("id") UUID id) throws QuestionException {
         questionService.delete(id);
     }
 
-    @DeleteMapping("/answer/{id}")
+    @DeleteMapping("/purchaseAnswer/{id}")
     public void deleteAnswer(@PathVariable("id") UUID id) throws AnswerException {
         answerService.delete(id);
     }
 
-    @GetMapping("/question/{id}")
+    @GetMapping("/purchaseQuestion/{id}")
     public PurchaseQuestionDTO getQuestion(@PathVariable("id") UUID id) throws QuestionException {
         return questionService.get(id);
     }
 
-    @GetMapping("/answer/{id}")
-    public PurchaseAnswerDTO getAnswer(@PathVariable("id") UUID id) throws AnswerException {
-        return answerService.get(id);
-    }
-
-    @GetMapping("/question")
+    @GetMapping("/purchaseQuestions")
     public List<PurchaseQuestionDTO> getPageOfQuestions(@RequestParam int pageIndex, @RequestParam int pageSize) throws PageSizeException, PageIndexException {
         return questionService.getPage(pageIndex, pageSize);
     }
